@@ -1,0 +1,34 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUI", "CoreUI\CoreUI.csproj", "{FCC2F631-046A-44D7-BF31-9D24AC53DBBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUI.Sdl", "CoreUI.Sdl\CoreUI.Sdl.csproj", "{DF350E96-145F-4D8B-A418-04E10C2B3065}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{525624F8-36DE-4CFB-AE6E-C919DDE4BB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCoreUIApp", "SampleCoreUIApp\SampleCoreUIApp.csproj", "{E9D4A216-226E-491C-A043-A84DCFE86AE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCC2F631-046A-44D7-BF31-9D24AC53DBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC2F631-046A-44D7-BF31-9D24AC53DBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC2F631-046A-44D7-BF31-9D24AC53DBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC2F631-046A-44D7-BF31-9D24AC53DBBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF350E96-145F-4D8B-A418-04E10C2B3065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF350E96-145F-4D8B-A418-04E10C2B3065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF350E96-145F-4D8B-A418-04E10C2B3065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF350E96-145F-4D8B-A418-04E10C2B3065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D4A216-226E-491C-A043-A84DCFE86AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D4A216-226E-491C-A043-A84DCFE86AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D4A216-226E-491C-A043-A84DCFE86AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D4A216-226E-491C-A043-A84DCFE86AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E9D4A216-226E-491C-A043-A84DCFE86AE3} = {525624F8-36DE-4CFB-AE6E-C919DDE4BB58}
+	EndGlobalSection
+EndGlobal
