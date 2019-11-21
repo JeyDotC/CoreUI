@@ -87,5 +87,11 @@ namespace CoreUI.Sdl
         {
             SDL.SDL_DestroyRenderer(_renderer);
         }
+
+        public ICoreUIDrawContext FontFamily(string fontFamily)
+        {
+            _currentFont = _fontManager[fontFamily];
+            return this;
+        }
     }
 }

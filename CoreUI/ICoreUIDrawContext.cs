@@ -5,6 +5,8 @@ namespace CoreUI
 {
     public interface ICoreUIDrawContext : IDisposable
     {
+        public ICoreUIDrawContext FontFamily(string fontFamily);
+
         public ICoreUIDrawContext DrawColor(Color color);
 
         public ICoreUIDrawContext Clear();
