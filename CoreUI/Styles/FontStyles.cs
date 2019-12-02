@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace CoreUI.Dom.Styles
+namespace CoreUI.Styles
 {
     public struct FontStyles
     {
         public static FontStyles Default { get; } = new FontStyles {
             FontSize = 12,
-            FontColor = Color.Black
+            FontColor = Color.Black,
+            FontFamily = "Arial",
         };
 
         public string FontFamily { get; set; }

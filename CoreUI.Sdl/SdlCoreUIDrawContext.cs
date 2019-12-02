@@ -2,6 +2,7 @@
 using System.Drawing;
 using CoreUI.Sdl.SDL2;
 using CoreUI.Sdl.Text;
+using CoreUI.Styles;
 
 namespace CoreUI.Sdl
 {
@@ -30,11 +31,20 @@ namespace CoreUI.Sdl
             return this;
         }
 
-        public ICoreUIDrawContext DrawRectangle(Rectangle rectangle)
+
+        public ICoreUIDrawContext FillRectangle(Rectangle rectangle)
         {
             var sdlRect = rectangle.ToSDLRect();
 
             SDL.SDL_RenderFillRect(_renderer, ref sdlRect).Check("Draw Rectangle");
+            return this;
+        }
+
+        public ICoreUIDrawContext DrawRectangle(Rectangle rectangle)
+        {
+            var sdlRect = rectangle.ToSDLRect();
+
+            SDL.SDL_RenderDrawRect(_renderer, ref sdlRect).Check("Draw Rectangle");
             return this;
         }
 
@@ -56,6 +66,11 @@ namespace CoreUI.Sdl
                 return Color.FromArgb(a, r, g, b);
             }
         }
+
+        public int LineWidth { get; set; }
+        public Color FillStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Color StrokeStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public FontStyles Font { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ICoreUIDrawContext DrawText(string text, int fontSize, Point position)
         {
@@ -92,6 +107,61 @@ namespace CoreUI.Sdl
         {
             _currentFont = _fontManager[fontFamily];
             return this;
+        }
+
+        public ICoreUIDrawContext ClearRect(Rectangle rectangle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext Fill()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext Stroke()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext BeginPath()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext MoveTo(Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext ClosePath()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Size MeasureText(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext FillText(string text, Point position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext Restore()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICoreUIDrawContext LineTo(Point point)
+        {
+            throw new NotImplementedException();
         }
     }
 }

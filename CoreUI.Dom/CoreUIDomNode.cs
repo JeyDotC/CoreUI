@@ -13,7 +13,7 @@ namespace CoreUI.Dom
         /// <summary>
         /// Position relative to parent
         /// </summary>
-        public Point Position { get; set; } = new Point();
+        public virtual Point Position { get; set; } = new Point();
 
         public virtual Size Size { get; set; }
 
