@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreUI.Sdl\CoreUI.Sdl.csproj" />
+    <ProjectReference Include="..\CoreUI\CoreUI.csproj" />
   </ItemGroup>
 
 </Project>

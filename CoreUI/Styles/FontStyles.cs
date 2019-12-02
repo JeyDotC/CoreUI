@@ -18,5 +18,12 @@ namespace CoreUI.Styles
         public int FontSize { get; set; }
 
         public Color FontColor { get; set; }
+
+        public FontStyles(FontStyles font): this()
+        {
+            FontFamily = font.FontFamily;
+            FontColor = font.FontColor;
+            FontSize = font.FontSize;
+        }
     }
 }

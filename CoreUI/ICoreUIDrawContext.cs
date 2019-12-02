@@ -89,11 +89,13 @@ globalAlpha	Sets or returns the current alpha or transparency value of the drawi
 globalCompositeOperation	Sets or returns how a new image is drawn onto an existing image
 Other
 Method	Description
-+ save()	Saves the state of the current context
-+ restore()	Returns previously saved path state and attributes
+save()	Saves the state of the current context
+restore()	Returns previously saved path state and attributes
              */
 
         // Colors, Styles, Shadows
+        public Color ClearStyle { get; set; }
+
         public Color FillStyle { get; set; }
 
         public Color StrokeStyle { get; set; }

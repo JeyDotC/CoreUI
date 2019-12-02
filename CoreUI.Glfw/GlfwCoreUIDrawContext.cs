@@ -16,12 +16,39 @@ namespace CoreUI.Glfw
 
         private SKSurface _surface;
         private SKCanvas _canvas;
-        private SKPath _path;
+        
+        public Color ClearStyle {
+            get => _currentState.ClearStyle;
+            set => _currentState.ClearStyle = value;
+        }
 
-        public Color FillStyle { get; set; } = Color.White;
-        public Color StrokeStyle { get; set; } = Color.Black;
-        public int LineWidth { get; set; } = 1;
-        public FontStyles Font { get; set; } = FontStyles.Default;
+        public Color FillStyle
+        {
+            get => _currentState.FillStyle;
+            set => _currentState.FillStyle = value;
+        }
+
+        public Color StrokeStyle
+        {
+            get => _currentState.StrokeStyle;
+            set => _currentState.StrokeStyle = value;
+        }
+
+        public int LineWidth
+        {
+            get => _currentState.LineWidth;
+            set => _currentState.LineWidth = value;
+        }
+
+        public FontStyles Font
+        {
+            get => _currentState.Font;
+            set => _currentState.Font = value;
+        }
+
+        private DrawingContextState _currentState = new DrawingContextState();
+
+        private DrawingContextState _savedState;
 
         public GlfwCoreUIDrawContext(NativeWindow nativeWindow)
         {
@@ -83,24 +110,29 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext BeginPath()
         {
-            _path = new SKPath();
+            _currentState.Path = new SKPath();
             return this;
         }
 
         public ICoreUIDrawContext Clear()
         {
-            _canvas.Clear(Color.White.ToSKColor());
+            _canvas.Clear(ClearStyle.ToSKColor());
             return this;
         }
 
         public ICoreUIDrawContext ClearRect(Rectangle rectangle)
         {
-            throw new NotImplementedException();
+            var oldFillStyle = FillStyle;
+            FillStyle = ClearStyle;
+            this.FillRect(rectangle);
+            FillStyle = oldFillStyle;
+
+            return this;
         }
 
         public ICoreUIDrawContext ClosePath()
         {
-            _path?.Close();
+            _currentState.Path?.Close();
             return this;
         }
 
@@ -113,7 +145,7 @@ namespace CoreUI.Glfw
                 IsAntialias = true
             })
             {
-                _canvas.DrawPath(_path, paint);
+                _canvas.DrawPath(_currentState.Path, paint);
             }
 
             return this;
@@ -163,24 +195,27 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext MoveTo(Point point)
         {
-            _path.MoveTo(point.X, point.Y);
+            _currentState.Path.MoveTo(point.X, point.Y);
             return this;
         }
 
         public ICoreUIDrawContext LineTo(Point point)
         {
-            _path.LineTo(point.X, point.Y);
+            _currentState.Path.LineTo(point.X, point.Y);
             return this;
         }
 
         public ICoreUIDrawContext Restore()
         {
-            throw new NotImplementedException();
+            _currentState = _savedState ?? _currentState;
+            _savedState = null;
+            return null;
         }
 
         public ICoreUIDrawContext Save()
         {
-            throw new NotImplementedException();
+            _savedState = new DrawingContextState(_currentState);
+            return this;
         }
 
         public ICoreUIDrawContext Stroke()
@@ -193,7 +228,7 @@ namespace CoreUI.Glfw
                 IsAntialias = true
             })
             {
-                _canvas.DrawPath(_path, paint);
+                _canvas.DrawPath(_currentState.Path, paint);
             }
             return this;
         }
