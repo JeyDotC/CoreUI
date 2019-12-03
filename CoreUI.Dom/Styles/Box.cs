@@ -6,12 +6,12 @@ namespace CoreUI.Dom.Styles
 {
     public struct Box
     {
-        public int Top { get; set; }
+        public LengthHint Top { get; set; }
 
-        public int Right { get; set; }
+        public LengthHint Right { get; set; }
 
-        public int Bottom { get; set; }
+        public LengthHint Bottom { get; set; }
 
-        public int Left { get; set; }
+        public LengthHint Left { get; set; }
     }
 }

@@ -22,15 +22,16 @@ namespace CoreUI.Dom
 
         protected override void Render(ICoreUIDrawContext drawContext)
         {
+            drawContext.Save();
+
             var position = this.GetGlobalPosition();
             _currentSize = drawContext.MeasureText(Text);
 
-            if (!string.IsNullOrWhiteSpace(FontStyles.FontFamily))
-            {
-                drawContext.Font = FontStyles;
-            }
+            drawContext.Font = FontStyles;
 
             drawContext.FillText(Text, position);
+
+            drawContext.Restore();
         }
     }
 }

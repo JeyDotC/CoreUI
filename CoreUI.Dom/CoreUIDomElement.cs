@@ -12,7 +12,7 @@ namespace CoreUI.Dom
 
         public override Point Position
         {
-            get => base.Position + new Size(Style.Padding.Left, Style.Padding.Top);
+            get => base.Position + new Size((int)Style.Padding.Left.Value, (int)Style.Padding.Top.Value);
             set => base.Position = value;
         }
     }
