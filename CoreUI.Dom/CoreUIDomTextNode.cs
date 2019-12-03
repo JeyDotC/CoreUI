@@ -1,4 +1,5 @@
 ﻿using CoreUI.Dom.Styles;
+using CoreUI.Styles;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace CoreUI.Dom
 {
-    public abstract class CoreUIDomTextNode : CoreUIDomNode
+    public sealed class CoreUIDomTextNode : CoreUIDomNode
     {
         private Size _currentSize = new Size();
 
@@ -22,15 +23,14 @@ namespace CoreUI.Dom
         protected override void Render(ICoreUIDrawContext drawContext)
         {
             var position = this.GetGlobalPosition();
-            _currentSize = drawContext.CalculateTextSize(Text, FontStyles.FontSize);
+            _currentSize = drawContext.MeasureText(Text);
 
             if (!string.IsNullOrWhiteSpace(FontStyles.FontFamily))
             {
-                drawContext.FontFamily(FontStyles.FontFamily);
+                drawContext.Font = FontStyles;
             }
 
-            drawContext.DrawColor(FontStyles.FontColor)
-                .DrawText(Text, FontStyles.FontSize, position);
+            drawContext.FillText(Text, position);
         }
     }
 }

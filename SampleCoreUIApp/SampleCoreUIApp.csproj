@@ -14,7 +14,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreUI.Dom\CoreUI.Dom.csproj" />
-    <ProjectReference Include="..\CoreUI.Sdl\CoreUI.Sdl.csproj" />
+    <ProjectReference Include="..\CoreUI.Glfw\CoreUI.Glfw.csproj" />
   </ItemGroup>
 </Project>

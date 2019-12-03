@@ -1,4 +1,4 @@
-﻿using CoreUI.Sdl.SDL2;
+﻿using GL = GLFW.Glfw;
 
 namespace System
 {
@@ -8,7 +8,8 @@ namespace System
         {
             if (valueToCheck < 0)
             {
-                throw new InvalidOperationException($"Could not {actionAttempted}. SDL. Error: {SDL.SDL_GetError()}");
+                GL.GetError(out var errorMessage);
+                throw new InvalidOperationException($"Could not {actionAttempted}. SDL. Error: {errorMessage}");
             }
 
             return valueToCheck;
@@ -18,7 +19,8 @@ namespace System
         {
             if (valueToCheck == IntPtr.Zero)
             {
-                throw new InvalidOperationException($"Could not {actionAttempted}. SDL. Error: {SDL.SDL_GetError()}");
+                GL.GetError(out var errorMessage);
+                throw new InvalidOperationException($"Could not {actionAttempted}. SDL. Error: {errorMessage}");
             }
 
             return valueToCheck;
