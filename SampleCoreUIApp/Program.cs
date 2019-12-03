@@ -18,10 +18,7 @@ namespace SampleCoreUIApp
 
                     context.FillStyle = Color.DarkBlue;
                     context.LineWidth = 5;
-                    context.Font = new FontStyles(context.Font)
-                    {
-                        FontSize = 25
-                    };
+                    context.Font.FontSize = 25;
 
                     context.BeginPath()
                         .MoveTo(new Point(0, 0))
@@ -40,8 +37,14 @@ namespace SampleCoreUIApp
 
                     context.Save();
                     context.LineWidth = 2;
-                    context.StrokeStyle = Color.Red;
-                    context.FillStyle = Color.AliceBlue;
+
+                    context.StrokeStyle = GradientSpec.Linear(new Point(0, 460 - 2), new Point(measure.Width, 460 - 2))
+                                                      .AddColorStop(0, Color.Black)
+                                                      .AddColorStop(0.5f, Color.Red);
+
+                    context.FillStyle = GradientSpec.Linear(new Point(0, 460 - 2), new Point(0, 460 + measure.Height))
+                                                      .AddColorStop(0, Color.AliceBlue)
+                                                      .AddColorStop(0.9f, Color.Green);
                     context.Rect(new Rectangle(
                             new Point(0, 460 - 2), 
                             measure + new Size(2, 2)

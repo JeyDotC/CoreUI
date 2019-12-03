@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoreUI.Styles
 {
-    public struct FontStyles
+    public class FontStyles
     {
         public static FontStyles Default { get; } = new FontStyles {
             FontSize = 12,
@@ -17,12 +17,14 @@ namespace CoreUI.Styles
 
         public int FontSize { get; set; }
 
-        public Color FontColor { get; set; }
+        public PaintStyle FontColor { get; set; }
 
-        public FontStyles(FontStyles font): this()
+        public FontStyles() { }
+
+        public FontStyles(FontStyles font)
         {
             FontFamily = font.FontFamily;
-            FontColor = font.FontColor;
+            FontColor = new PaintStyle(font.FontColor);
             FontSize = font.FontSize;
         }
     }

@@ -10,9 +10,9 @@ namespace CoreUI.Glfw
     internal class DrawingContextState
     {
         public SKPath Path { get; set; }
-        public Color ClearStyle { get; set; } = Color.White;
-        public Color FillStyle { get; set; } = Color.White;
-        public Color StrokeStyle { get; set; } = Color.Black;
+        public PaintStyle ClearStyle { get; set; } = Color.White;
+        public PaintStyle FillStyle { get; set; } = Color.White;
+        public PaintStyle StrokeStyle { get; set; } = Color.Black;
         public int LineWidth { get; set; } = 1;
         public FontStyles Font { get; set; } = FontStyles.Default;
 
@@ -25,7 +25,7 @@ namespace CoreUI.Glfw
             FillStyle = state.FillStyle;
             StrokeStyle = state.StrokeStyle;
             LineWidth = state.LineWidth;
-            Font = state.Font;
+            Font = new FontStyles(state.Font);
         }
     }
 }

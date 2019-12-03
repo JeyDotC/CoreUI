@@ -94,11 +94,11 @@ restore()	Returns previously saved path state and attributes
              */
 
         // Colors, Styles, Shadows
-        public Color ClearStyle { get; set; }
+        public PaintStyle ClearStyle { get; set; }
 
-        public Color FillStyle { get; set; }
+        public PaintStyle FillStyle { get; set; }
 
-        public Color StrokeStyle { get; set; }
+        public PaintStyle StrokeStyle { get; set; }
 
         // Line Styles
         public int LineWidth { get; set; }

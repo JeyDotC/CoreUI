@@ -17,18 +17,18 @@ namespace CoreUI.Glfw
         private SKSurface _surface;
         private SKCanvas _canvas;
         
-        public Color ClearStyle {
+        public PaintStyle ClearStyle {
             get => _currentState.ClearStyle;
             set => _currentState.ClearStyle = value;
         }
 
-        public Color FillStyle
+        public PaintStyle FillStyle
         {
             get => _currentState.FillStyle;
             set => _currentState.FillStyle = value;
         }
 
-        public Color StrokeStyle
+        public PaintStyle StrokeStyle
         {
             get => _currentState.StrokeStyle;
             set => _currentState.StrokeStyle = value;
@@ -116,7 +116,7 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Clear()
         {
-            _canvas.Clear(ClearStyle.ToSKColor());
+            _canvas.Clear(ClearStyle.Color.ToSKColor());
             return this;
         }
 
@@ -138,13 +138,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Fill()
         {
-            using (var paint = new SKPaint
+            using (var paint = FillStyle.ToSKPaint())
             {
-                Color = FillStyle.ToSKColor(),
-                IsStroke = false,
-                IsAntialias = true
-            })
-            {
+                paint.IsStroke = false;
+                paint.IsAntialias = true;
+
                 _canvas.DrawPath(_currentState.Path, paint);
             }
 
@@ -155,15 +153,13 @@ namespace CoreUI.Glfw
         {
             using (var typeface = SKTypeface.FromFamilyName(Font.FontFamily))
             {
-                using (var paint = new SKPaint
+                using (var paint = FillStyle.ToSKPaint())
                 {
-                    TextSize = Font.FontSize,
-                    Color = FillStyle.ToSKColor(),
-                    IsAntialias = true,
-                    IsStroke = false,
-                    Typeface = typeface,
-                })
-                {
+                    paint.TextSize = Font.FontSize;
+                    paint.IsAntialias = true;
+                    paint.IsStroke = false;
+                    paint.Typeface = typeface;
+
                     _canvas.DrawText(text, position.X, position.Y - paint.FontMetrics.Ascent, paint);
                 }
             }
@@ -178,8 +174,6 @@ namespace CoreUI.Glfw
                 using (var paint = new SKPaint
                 {
                     TextSize = Font.FontSize,
-                    Color = FillStyle.ToSKColor(),
-                    IsAntialias = true,
                     IsStroke = false,
                     Typeface = typeface,
                 })
@@ -220,14 +214,12 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Stroke()
         {
-            using (var paint = new SKPaint
+            using (var paint = StrokeStyle.ToSKPaint())
             {
-                Color = StrokeStyle.ToSKColor(),
-                IsStroke = true,
-                StrokeWidth = LineWidth,
-                IsAntialias = true
-            })
-            {
+                paint.IsStroke = true;
+                paint.StrokeWidth = LineWidth;
+                paint.IsAntialias = true;
+
                 _canvas.DrawPath(_currentState.Path, paint);
             }
             return this;
