@@ -5,18 +5,18 @@ namespace CoreUI.Dom.Styles
     {
         public float Value { get; }
 
-        public LengthUnit Units { get; }
+        public MeasureUnit Unit { get; }
 
-        public LengthHint(float value, LengthUnit unit = LengthUnit.Pixels)
+        public LengthHint(float value, MeasureUnit unit = MeasureUnit.Pixels)
         {
             Value = value;
-            Units = unit;
+            Unit = unit;
         }
 
         public static implicit operator LengthHint(float value) => new LengthHint(value);
 
-        public static LengthHint operator +(LengthHint lengthHint, float value) => new LengthHint(lengthHint.Value + value, lengthHint.Units);
+        public static LengthHint operator +(LengthHint lengthHint, float value) => new LengthHint(lengthHint.Value + value, lengthHint.Unit);
 
-        public static LengthHint operator -(LengthHint lengthHint, float value) => new LengthHint(lengthHint.Value - value, lengthHint.Units);
+        public static LengthHint operator -(LengthHint lengthHint, float value) => new LengthHint(lengthHint.Value - value, lengthHint.Unit);
     }
 }

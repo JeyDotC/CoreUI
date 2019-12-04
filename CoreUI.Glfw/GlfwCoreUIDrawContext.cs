@@ -138,6 +138,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Fill()
         {
+            if (FillStyle.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var paint = FillStyle.ToSKPaint())
             {
                 paint.IsStroke = false;
@@ -151,6 +156,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext FillText(string text, Point position)
         {
+            if (FillStyle.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var typeface = SKTypeface.FromFamilyName(Font.FontFamily))
             {
                 using (var paint = FillStyle.ToSKPaint())
@@ -214,6 +224,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Stroke()
         {
+            if (FillStyle.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var paint = StrokeStyle.ToSKPaint())
             {
                 paint.IsStroke = true;

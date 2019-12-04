@@ -10,13 +10,6 @@ namespace CoreUI.Dom
 
         public CoreUIDomNode Parent { get; protected set; }
 
-        /// <summary>
-        /// Position relative to parent
-        /// </summary>
-        public virtual Point Position { get; set; } = new Point();
-
-        public virtual Size Size { get; set; }
-
         IEnumerable<CoreUIDomNode> Children => _children;
 
         public CoreUIDomNode Add(CoreUIDomNode node)
@@ -51,7 +44,5 @@ namespace CoreUI.Dom
 
             return this;
         }
-
-        protected abstract void Render(ICoreUIDrawContext drawContext);
     }
 }

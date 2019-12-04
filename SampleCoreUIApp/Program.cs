@@ -27,7 +27,7 @@ namespace SampleCoreUIApp
                         .ClosePath()
                         .Fill()
                         .Stroke();
-                    
+
                     context.FillRect(new Rectangle(360, 0, 240, 400));
 
                     context.ClearRect(new Rectangle(380, 40, 60, 60));
