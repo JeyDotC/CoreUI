@@ -9,7 +9,7 @@ namespace CoreUI.Dom
     public static class CoreUIDomNodeExtensionMethods
     {
         public static Point GetGlobalPosition(this CoreUIDomNode node)
-            => node.GetAllParents().Aggregate(node.Position, (accumulate, item) => accumulate + (Size)item.Position);
+            => node.GetAllParents().Aggregate(new Point(), (accumulate, item) => accumulate);
 
         public static IEnumerable<CoreUIDomNode> GetAllParents(this CoreUIDomNode node)
         {

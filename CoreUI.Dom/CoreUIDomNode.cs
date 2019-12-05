@@ -12,6 +12,8 @@ namespace CoreUI.Dom
 
         IEnumerable<CoreUIDomNode> Children => _children;
 
+        public DrawBox DrawBox { get; set; }
+
         public CoreUIDomNode Add(CoreUIDomNode node)
         {
             if(node == this)

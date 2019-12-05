@@ -18,5 +18,9 @@ namespace CoreUI.Dom.Styles
         public PaintStyle Background { get; set; } = PaintStyle.None;
 
         public DisplayStyle Display { get; set; }
+
+        public LengthHint Width { get; set; }
+
+        public LengthHint Height { get; set; }
     }
 }

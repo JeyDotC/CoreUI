@@ -13,7 +13,7 @@ namespace CoreUI.Dom.Styles
             Bottom = 0,
             Left = 0,
         };
-
+        
         public LengthHint Top { get; set; }
 
         public LengthHint Right { get; set; }
@@ -21,5 +21,22 @@ namespace CoreUI.Dom.Styles
         public LengthHint Bottom { get; set; }
 
         public LengthHint Left { get; set; }
+
+        public Box(LengthHint top) : this(top, top, top, top)
+        { }
+
+        public Box(LengthHint top, LengthHint right) : this(top, right, top, right)
+        { }
+
+        public Box(LengthHint top, LengthHint right, LengthHint bottom) : this(top, right, bottom, right)
+        { }
+
+        public Box(LengthHint top, LengthHint right, LengthHint bottom, LengthHint left) : this()
+        {
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+            Left = left;
+        }
     }
 }
