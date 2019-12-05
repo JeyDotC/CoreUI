@@ -59,6 +59,8 @@ namespace CoreUI.Glfw
             _hostWindow.SizeChanged += RegenerateSurface;
         }
 
+        public Size ViewPort => _hostWindow.Size;
+
         private void RegenerateSurface(object sender, SizeChangeEventArgs e)
         {
             _surface.Dispose();
