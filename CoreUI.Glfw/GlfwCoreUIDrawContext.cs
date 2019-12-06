@@ -158,14 +158,14 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext FillText(string text, Point position)
         {
-            if (FillStyle.Type == PaintStyleType.None)
+            if (Font.FontColor.Type == PaintStyleType.None)
             {
                 return this;
             }
 
             using (var typeface = SKTypeface.FromFamilyName(Font.FontFamily))
             {
-                using (var paint = FillStyle.ToSKPaint())
+                using (var paint = Font.FontColor.ToSKPaint())
                 {
                     paint.TextSize = Font.FontSize;
                     paint.IsAntialias = true;
