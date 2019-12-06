@@ -14,5 +14,15 @@ namespace CoreUI.Dom
         public Rectangle PaddingBox { get; set; }
 
         public Rectangle ContentBox { get; set; }
+
+        public DrawBox() {}
+
+        public DrawBox(DrawBox drawBox)
+        {
+            MarginBox = drawBox.MarginBox;
+            BorderBox = drawBox.BorderBox;
+            PaddingBox = drawBox.PaddingBox;
+            ContentBox = drawBox.ContentBox;
+        }
     }
 }

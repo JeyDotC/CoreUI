@@ -13,7 +13,7 @@ namespace SampleCoreUIApp
         public Div(Action<Div> setup, params Div[] children)
         {
             Style.Display = DisplayStyle.Block;
-            Style.Width = new LengthHint(100, MeasureUnit.Percent);
+            Style.Width = MeasureUnit.Auto;
             
             setup(this);
             foreach (var child in children)
@@ -41,67 +41,78 @@ namespace SampleCoreUIApp
                 d.Style.Background = Color.AliceBlue;
             });
 
+            var drawBox = CalculateProvidedWidth(root, context);
+            var style = root.Style;
+
+            context.Clear();
+
+            context.FillStyle = style.Background;
+            context.BeginPath();
+
+            context.StrokeStyle = style.Border.Top.Paint;
+            context.LineWidth = (int)style.Border.Top.Width.Value;
+            context.MoveTo(drawBox.BorderBox.Location).LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Location.Y));
+
+            context.StrokeStyle = style.Border.Right.Paint;
+            context.LineWidth = (int)style.Border.Right.Width.Value;
+            context.LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Bottom));
+
+            context.StrokeStyle = style.Border.Bottom.Paint;
+            context.LineWidth = (int)style.Border.Bottom.Width.Value;
+            context.LineTo(new Point(drawBox.BorderBox.Location.X, drawBox.BorderBox.Bottom));
+
+            context.StrokeStyle = style.Border.Left.Paint;
+            context.LineWidth = (int)style.Border.Left.Width.Value;
+            context.ClosePath();
+
+            context.Fill().Stroke();
+
+        });
+
+        private static DrawBox CalculateProvidedWidth(CoreUIDomElement root, ICoreUIDrawContext context)
+        {
+            var style = root.Style;
+
             var contentBox = new Rectangle
             {
-                Size = new Size((int)root.Style.Width.Value, (int)root.Style.Height.Value)
+                Size = new Size
+                {
+                    Width = style.Width.GetDrawValue(context.ViewPort.Width),
+                    Height = style.Height.GetDrawValue(context.ViewPort.Height),
+                }
             };
             var paddingBox = new Rectangle
             {
-                Size = contentBox.Size + new Size(
-                    (int)(root.Style.Padding.Right.Value + root.Style.Padding.Left.Value),
-                    (int)(root.Style.Padding.Top.Value + root.Style.Padding.Bottom.Value)
-                )
+                Size = style.Padding.GetDrawSize(contentBox.Size),
             };
-            var borderBox = new Rectangle {
-                Size = paddingBox.Size + new Size(
-                    (int)(root.Style.Border.Box.Right.Value + root.Style.Border.Box.Left.Value),
-                    (int)(root.Style.Border.Box.Top.Value + root.Style.Border.Box.Bottom.Value)
-                )
+            var borderBox = new Rectangle
+            {
+                Size = style.Border.Box.GetDrawSize(paddingBox.Size),
             };
             var marginBox = new Rectangle
             {
-                Size = borderBox.Size + new Size(
-                    (int)(root.Style.Margin.Right.Value + root.Style.Margin.Left.Value),
-                    (int)(root.Style.Margin.Top.Value + root.Style.Margin.Bottom.Value)
-                )
+                Size = style.Margin.GetDrawSize(borderBox.Size),
             };
 
             marginBox.Location = new Point();
-            borderBox.Location = marginBox.Location + new Size((int)root.Style.Margin.Right.Value, (int)root.Style.Margin.Top.Value);
-            paddingBox.Location = borderBox.Location + new Size((int)root.Style.Border.Box.Right.Value, (int)root.Style.Border.Box.Top.Value);
-            contentBox.Location = paddingBox.Location + new Size((int)root.Style.Padding.Right.Value, (int)root.Style.Padding.Top.Value);
+            borderBox.Location = style.Margin.GetDrawPosition(marginBox);
+            paddingBox.Location = style.Border.Box.GetDrawPosition(borderBox);
+            contentBox.Location = style.Padding.GetDrawPosition(paddingBox);
 
-            var drawBox = new DrawBox
+            return new DrawBox
             {
                 MarginBox = marginBox,
                 BorderBox = borderBox,
                 PaddingBox = paddingBox,
                 ContentBox = contentBox,
             };
+        }
 
-            context.Clear();
-
-            context.FillStyle = root.Style.Background;
-            context.BeginPath();
-
-            context.StrokeStyle = root.Style.Border.Top.Paint;
-            context.LineWidth = (int)root.Style.Border.Top.Width.Value;
-            context.MoveTo(borderBox.Location).LineTo(new Point(borderBox.Right, borderBox.Location.Y));
-
-            context.StrokeStyle = root.Style.Border.Right.Paint;
-            context.LineWidth = (int)root.Style.Border.Right.Width.Value;
-            context.LineTo(new Point(borderBox.Right, borderBox.Bottom));
-
-            context.StrokeStyle = root.Style.Border.Bottom.Paint;
-            context.LineWidth = (int)root.Style.Border.Bottom.Width.Value;
-            context.LineTo(new Point(borderBox.Location.X, borderBox.Bottom));
-
-            context.StrokeStyle = root.Style.Border.Left.Paint;
-            context.LineWidth = (int)root.Style.Border.Left.Width.Value;
-            context.ClosePath();
-
-            context.Fill().Stroke();
-
-        });
+        private static DrawBox CalculateAuto(CoreUIDomElement root, ICoreUIDrawContext context)
+        {
+            return new DrawBox
+            {
+            };
+        }
     }
 }

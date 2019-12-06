@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace CoreUI.Dom.Styles
@@ -13,7 +14,7 @@ namespace CoreUI.Dom.Styles
             Bottom = 0,
             Left = 0,
         };
-        
+
         public LengthHint Top { get; set; }
 
         public LengthHint Right { get; set; }
@@ -38,5 +39,19 @@ namespace CoreUI.Dom.Styles
             Bottom = bottom;
             Left = left;
         }
+
+        public Point GetDrawPosition(Rectangle relativeTo)
+            => new Point
+            {
+                X = Left.GetDrawValue(relativeTo.Width),
+                Y = Top.GetDrawValue(relativeTo.Height)
+            } + (Size)relativeTo.Location;
+
+        public Size GetDrawSize(Size relativeTo = new Size())
+            => new Size
+            {
+                Height = Top.GetDrawValue(relativeTo.Height) + Bottom.GetDrawValue(relativeTo.Height),
+                Width = Left.GetDrawValue(relativeTo.Width) + Right.GetDrawValue(relativeTo.Width),
+            } + relativeTo;
     }
 }

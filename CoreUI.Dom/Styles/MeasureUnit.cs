@@ -5,5 +5,6 @@ namespace CoreUI.Dom.Styles
     {
         Pixels,
         Percent,
+        Auto,
     }
 }
