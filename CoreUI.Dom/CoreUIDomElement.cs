@@ -8,6 +8,8 @@ namespace CoreUI.Dom
 {
     public abstract class CoreUIDomElement : CoreUIDomNode
     {
-        public Style Style { get; } = new Style();
+        public Style Style { get; protected set; } = new Style();
+
+        public abstract Style DefaultStyle { get; }
     }
 }

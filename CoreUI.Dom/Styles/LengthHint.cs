@@ -17,8 +17,7 @@ namespace CoreUI.Dom.Styles
             => Unit switch {
                 MeasureUnit.Pixels => (int)Value,
                 MeasureUnit.Percent => (int)MathF.Ceiling(Value / 100) * relativeTo,
-                MeasureUnit.Auto => relativeTo,
-                _ => (int)Value
+                _ => (int)Value,
             };
 
         public static implicit operator LengthHint(float value) => new LengthHint(value);

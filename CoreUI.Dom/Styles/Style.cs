@@ -7,6 +7,22 @@ namespace CoreUI.Dom.Styles
 {
     public class Style
     {
+
+        public Style()
+        {}
+
+        public Style(Style style)
+        {
+            FontStyles = new FontStyles(style.FontStyles);
+            Padding = style.Padding;
+            Margin = style.Margin;
+            Border = style.Border;
+            Background = new PaintStyle(style.Background);
+            Display = style.Display;
+            Width = style.Width;
+            Height = style.Height;
+        }
+
         public FontStyles FontStyles { get; set; } = FontStyles.Default;
 
         public Box Padding { get; set; } = Box.None;
@@ -19,8 +35,8 @@ namespace CoreUI.Dom.Styles
 
         public DisplayStyle Display { get; set; }
 
-        public LengthHint Width { get; set; }
+        public StyleValue<LengthHint> Width { get; set; }
 
-        public LengthHint Height { get; set; }
+        public StyleValue<LengthHint> Height { get; set; }
     }
 }

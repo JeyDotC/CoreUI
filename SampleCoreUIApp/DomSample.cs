@@ -11,11 +11,16 @@ namespace SampleCoreUIApp
 {
     class Div : CoreUIDomElement
     {
+        public override Style DefaultStyle => new Style
+        {
+            Display = DisplayStyle.Block,
+            Width = ValueKind.Auto
+        };
+
         public Div(Action<Div> setup, params Div[] children)
         {
-            Style.Display = DisplayStyle.Block;
-            Style.Width = MeasureUnit.Auto;
-            
+            Style = new Style(DefaultStyle);
+
             setup(this);
             foreach (var child in children)
             {
@@ -26,16 +31,17 @@ namespace SampleCoreUIApp
 
     static class DomSample
     {
-        public static ICoreUIWindow DomExample(this ICoreUIWindow window) => window.Renderer(context =>
+        public static ICoreUIWindow DomExample(this ICoreUIWindow window)
         {
-            var root = new Div(d => {
+            var root = new Div(d =>
+            {
                 var solidColoredBorder = new BorderStyle
                 {
                     Paint = Color.Black,
                     Width = 1,
                 };
                 // d.Style.Width = 400;
-                d.Style.Height = 400;
+                d.Style.Height = 400f.Px();
                 d.Style.Border = new BorderBox(solidColoredBorder);
                 d.Style.Margin = new Box(20, 40);
                 d.Style.Padding = new Box(6);
@@ -43,37 +49,40 @@ namespace SampleCoreUIApp
                 d.Style.FontStyles.FontSize = 18;
             });
 
-            var drawBox = root.Style.Width.Unit == MeasureUnit.Auto ? CalculateAuto(root, context) : CalculateProvidedWidth(root, context);
-            var style = root.Style;
+            return window.Renderer(context =>
+            {
+                var drawBox = root.Style.Width.ValueKind == ValueKind.Auto ? CalculateAuto(root, context) : CalculateProvidedWidth(root, context);
+                var style = root.Style;
 
-            root.DrawBox = drawBox;
+                root.DrawBox = drawBox;
 
-            context.Clear();
+                context.Clear();
 
-            context.FillStyle = style.Background;
-            context.BeginPath();
+                context.FillStyle = style.Background;
+                context.BeginPath();
 
-            context.StrokeStyle = style.Border.Top.Paint;
-            context.LineWidth = (int)style.Border.Top.Width.Value;
-            context.MoveTo(drawBox.BorderBox.Location).LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Location.Y));
+                context.StrokeStyle = style.Border.Top.Paint;
+                context.LineWidth = (int)style.Border.Top.Width.Value;
+                context.MoveTo(drawBox.BorderBox.Location).LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Location.Y));
 
-            context.StrokeStyle = style.Border.Right.Paint;
-            context.LineWidth = (int)style.Border.Right.Width.Value;
-            context.LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Bottom));
+                context.StrokeStyle = style.Border.Right.Paint;
+                context.LineWidth = (int)style.Border.Right.Width.Value;
+                context.LineTo(new Point(drawBox.BorderBox.Right, drawBox.BorderBox.Bottom));
 
-            context.StrokeStyle = style.Border.Bottom.Paint;
-            context.LineWidth = (int)style.Border.Bottom.Width.Value;
-            context.LineTo(new Point(drawBox.BorderBox.Location.X, drawBox.BorderBox.Bottom));
+                context.StrokeStyle = style.Border.Bottom.Paint;
+                context.LineWidth = (int)style.Border.Bottom.Width.Value;
+                context.LineTo(new Point(drawBox.BorderBox.Location.X, drawBox.BorderBox.Bottom));
 
-            context.StrokeStyle = style.Border.Left.Paint;
-            context.LineWidth = (int)style.Border.Left.Width.Value;
-            context.ClosePath();
+                context.StrokeStyle = style.Border.Left.Paint;
+                context.LineWidth = (int)style.Border.Left.Width.Value;
+                context.ClosePath();
 
-            context.Fill().Stroke();
+                context.Fill().Stroke();
 
-            DrawText(context, "This is text contained into a div, it is a veeeery long one, so, it should be split into several lines depending on the container's size.", root);
+                DrawText(context, "This is text contained into a div, it is a veeeery long one, so, it should be split into several lines depending on the container's size.", root);
 
-        });
+            });
+        }
 
         struct Line
         {
@@ -126,8 +135,8 @@ namespace SampleCoreUIApp
             {
                 Size = new Size
                 {
-                    Width = style.Width.GetDrawValue(context.ViewPort.Width),
-                    Height = style.Height.GetDrawValue(context.ViewPort.Height),
+                    Width = style.Width.Value.GetDrawValue(context.ViewPort.Width),
+                    Height = style.Height.Value.GetDrawValue(context.ViewPort.Height),
                 }
             };
             var paddingBox = new Rectangle
@@ -163,17 +172,19 @@ namespace SampleCoreUIApp
 
             var marginBox = new Rectangle
             {
-                Size = new Size {
+                Size = new Size
+                {
                     Width = context.ViewPort.Width,
-                    Height = style.Height.GetDrawValue(context.ViewPort.Height), // Here goes children height calculation.
+                    Height = style.Height.Value.GetDrawValue(context.ViewPort.Height), // Here goes children height calculation.
                 },
             };
 
             var borderBox = new Rectangle
             {
-                Size = new Size {
-                    Width = marginBox.Width - style.Margin.Left.GetDrawValue(marginBox.Width) - style.Margin.Right.GetDrawValue(marginBox.Width),
-                    Height = marginBox.Height - style.Margin.Top.GetDrawValue(marginBox.Height) - style.Margin.Bottom.GetDrawValue(marginBox.Height),
+                Size = new Size
+                {
+                    Width = marginBox.Width - style.Margin.Left.Value.GetDrawValue(marginBox.Width) - style.Margin.Right.Value.GetDrawValue(marginBox.Width),
+                    Height = marginBox.Height - style.Margin.Top.Value.GetDrawValue(marginBox.Height) - style.Margin.Bottom.Value.GetDrawValue(marginBox.Height),
                 },
             };
 
@@ -181,8 +192,8 @@ namespace SampleCoreUIApp
             {
                 Size = new Size
                 {
-                    Width = borderBox.Width - style.Border.Box.Left.GetDrawValue(marginBox.Width) - style.Border.Box.Right.GetDrawValue(marginBox.Width),
-                    Height = borderBox.Height - style.Border.Box.Top.GetDrawValue(marginBox.Height) - style.Border.Box.Bottom.GetDrawValue(marginBox.Height),
+                    Width = borderBox.Width - style.Border.Box.Left.Value.GetDrawValue(marginBox.Width) - style.Border.Box.Right.Value.GetDrawValue(marginBox.Width),
+                    Height = borderBox.Height - style.Border.Box.Top.Value.GetDrawValue(marginBox.Height) - style.Border.Box.Bottom.Value.GetDrawValue(marginBox.Height),
                 },
             };
 
@@ -190,8 +201,8 @@ namespace SampleCoreUIApp
             {
                 Size = new Size
                 {
-                    Width = paddingBox.Width - style.Padding.Left.GetDrawValue(marginBox.Width) - style.Padding.Right.GetDrawValue(marginBox.Width),
-                    Height = paddingBox.Height - style.Padding.Top.GetDrawValue(marginBox.Height) - style.Padding.Bottom.GetDrawValue(marginBox.Height),
+                    Width = paddingBox.Width - style.Padding.Left.Value.GetDrawValue(marginBox.Width) - style.Padding.Right.Value.GetDrawValue(marginBox.Width),
+                    Height = paddingBox.Height - style.Padding.Top.Value.GetDrawValue(marginBox.Height) - style.Padding.Bottom.Value.GetDrawValue(marginBox.Height),
                 },
             };
 
