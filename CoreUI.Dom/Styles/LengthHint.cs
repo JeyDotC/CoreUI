@@ -16,7 +16,7 @@ namespace CoreUI.Dom.Styles
         public int GetDrawValue(int relativeTo = 0)
             => Unit switch {
                 MeasureUnit.Pixels => (int)Value,
-                MeasureUnit.Percent => (int)MathF.Ceiling(Value / 100) * relativeTo,
+                MeasureUnit.Percent => (int)MathF.Ceiling((Value / 100) * relativeTo),
                 _ => (int)Value,
             };
 

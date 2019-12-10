@@ -1,5 +1,6 @@
 ﻿using CoreUI;
 using CoreUI.Dom;
+using CoreUI.Dom.Rendering;
 using CoreUI.Dom.Styles;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace SampleCoreUIApp
                     Paint = Color.Black,
                     Width = 1,
                 };
-                // d.Style.Width = 400;
+                d.Style.Width = 50f.Percent();
                 d.Style.Height = 400f.Px();
                 d.Style.Border = new BorderBox(solidColoredBorder);
                 d.Style.Margin = new Box(20, 40);
@@ -51,11 +52,16 @@ namespace SampleCoreUIApp
 
             return window.Renderer(context =>
             {
-                var drawBox = root.Style.Width.ValueKind == ValueKind.Auto ? CalculateAuto(root, context) : CalculateProvidedWidth(root, context);
-                var style = root.Style;
+                var document = new CoreUIDomDocument(context, root);
 
-                root.DrawBox = drawBox;
+                var drawboxCalculator = new DrawBoxCalculator();
 
+                drawboxCalculator.CalculateDrawBoxesForTree(document.Body);
+
+
+                var drawBox = document.Body.DrawBox;
+                var style = document.Body.Style;
+                
                 context.Clear();
 
                 context.FillStyle = style.Background;
