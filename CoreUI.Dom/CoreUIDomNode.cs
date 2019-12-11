@@ -23,7 +23,7 @@ namespace CoreUI.Dom
             }
         }
 
-        IEnumerable<CoreUIDomNode> Children => _children;
+        public IEnumerable<CoreUIDomNode> Children => _children;
 
         public virtual DrawBox DrawBox { get; set; } = new DrawBox();
 

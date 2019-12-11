@@ -25,8 +25,27 @@ namespace CoreUI.Dom.Rendering
             var borderBox = box.BorderBox;
             var paddingBox = box.PaddingBox;
             var contentBox = box.ContentBox;
+            var parentLocation = element.Parent.DrawBox.ContentBox.Location;
+            var location = parentLocation;
+            var previousSibling = element.Previous();
+            
+            if (previousSibling != null)
+            {
+                if (element.Style.Display == DisplayStyle.Block)
+                {
+                    location = location + new Size(0, previousSibling.DrawBox.BorderBox.Location.Y);
+                }
 
-            marginBox.Location = element.Parent.DrawBox.ContentBox.Location;
+                var previousElement = previousSibling as CoreUIDomElement;
+
+                if (previousElement != null)
+                {
+                    
+                }
+            }
+
+
+            marginBox.Location = location;
             borderBox.Location = style.Margin.GetDrawPosition(marginBox);
             paddingBox.Location = style.Border.Box.GetDrawPosition(borderBox);
             contentBox.Location = style.Padding.GetDrawPosition(paddingBox);

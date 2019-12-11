@@ -18,5 +18,13 @@ namespace CoreUI.Dom
                 yield return node.Parent;
             }
         }
+
+        public static CoreUIDomNode Previous(this CoreUIDomNode node)
+        {
+            var siblings = node.Parent?.Children?.ToList() ?? new List<CoreUIDomNode>();
+            var index = siblings.IndexOf(node);
+
+            return index - 1 >= 0 ? siblings[index - 1] : null;
+        }
     }
 }
