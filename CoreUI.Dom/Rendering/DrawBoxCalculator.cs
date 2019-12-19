@@ -8,6 +8,36 @@ namespace CoreUI.Dom.Rendering
 {
     public class DrawBoxCalculator
     {
+
+        private PartialDrawBox PrecalculateMeasures(CoreUIDomElement element, PartialDrawBox closestBlockParent)
+        {
+            var display = element.Style.Display;
+            var widthHint = element.GetWidthHint();
+            var heightHint = element.GetHeightHint();
+
+            return display switch
+            {
+                DisplayStyle.Inline => new PartialDrawBox(),
+                DisplayStyle.None => new PartialDrawBox(),
+                _ => new PartialDrawBox(),
+            };
+        }
+
+        private void CalculateChildren(CoreUIDomElement element)
+        {
+
+        }
+
+        private void CompleteMeasures(CoreUIDomElement element)
+        {
+
+        }
+
+        private void CalculatePosition(CoreUIDomElement element)
+        {
+
+        }
+
         public void CalculateDrawBoxesForTree(CoreUIDomElement element)
         {
             var box = CalculateWidth(element);

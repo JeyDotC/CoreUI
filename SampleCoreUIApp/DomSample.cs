@@ -90,13 +90,6 @@ namespace SampleCoreUIApp
             });
         }
 
-        struct Line
-        {
-            public string Text { get; set; }
-
-            public Size Size { get; set; }
-        }
-
         private static void DrawText(ICoreUIDrawContext context, string text, CoreUIDomElement container)
         {
             context.Font = container.Style.FontStyles;
@@ -133,97 +126,5 @@ namespace SampleCoreUIApp
             });
         }
 
-        private static DrawBox CalculateProvidedWidth(CoreUIDomElement root, ICoreUIDrawContext context)
-        {
-            var style = root.Style;
-
-            var contentBox = new Rectangle
-            {
-                Size = new Size
-                {
-                    Width = style.Width.Value.GetDrawValue(context.ViewPort.Width),
-                    Height = style.Height.Value.GetDrawValue(context.ViewPort.Height),
-                }
-            };
-            var paddingBox = new Rectangle
-            {
-                Size = style.Padding.GetDrawSize(contentBox.Size),
-            };
-            var borderBox = new Rectangle
-            {
-                Size = style.Border.Box.GetDrawSize(paddingBox.Size),
-            };
-            var marginBox = new Rectangle
-            {
-                Size = style.Margin.GetDrawSize(borderBox.Size),
-            };
-
-            marginBox.Location = new Point();
-            borderBox.Location = style.Margin.GetDrawPosition(marginBox);
-            paddingBox.Location = style.Border.Box.GetDrawPosition(borderBox);
-            contentBox.Location = style.Padding.GetDrawPosition(paddingBox);
-
-            return new DrawBox
-            {
-                MarginBox = marginBox,
-                BorderBox = borderBox,
-                PaddingBox = paddingBox,
-                ContentBox = contentBox,
-            };
-        }
-
-        private static DrawBox CalculateAuto(CoreUIDomElement root, ICoreUIDrawContext context)
-        {
-            var style = root.Style;
-
-            var marginBox = new Rectangle
-            {
-                Size = new Size
-                {
-                    Width = context.ViewPort.Width,
-                    Height = style.Height.Value.GetDrawValue(context.ViewPort.Height), // Here goes children height calculation.
-                },
-            };
-
-            var borderBox = new Rectangle
-            {
-                Size = new Size
-                {
-                    Width = marginBox.Width - style.Margin.Left.Value.GetDrawValue(marginBox.Width) - style.Margin.Right.Value.GetDrawValue(marginBox.Width),
-                    Height = marginBox.Height - style.Margin.Top.Value.GetDrawValue(marginBox.Height) - style.Margin.Bottom.Value.GetDrawValue(marginBox.Height),
-                },
-            };
-
-            var paddingBox = new Rectangle
-            {
-                Size = new Size
-                {
-                    Width = borderBox.Width - style.Border.Box.Left.Value.GetDrawValue(marginBox.Width) - style.Border.Box.Right.Value.GetDrawValue(marginBox.Width),
-                    Height = borderBox.Height - style.Border.Box.Top.Value.GetDrawValue(marginBox.Height) - style.Border.Box.Bottom.Value.GetDrawValue(marginBox.Height),
-                },
-            };
-
-            var contentBox = new Rectangle
-            {
-                Size = new Size
-                {
-                    Width = paddingBox.Width - style.Padding.Left.Value.GetDrawValue(marginBox.Width) - style.Padding.Right.Value.GetDrawValue(marginBox.Width),
-                    Height = paddingBox.Height - style.Padding.Top.Value.GetDrawValue(marginBox.Height) - style.Padding.Bottom.Value.GetDrawValue(marginBox.Height),
-                },
-            };
-
-            marginBox.Location = new Point();
-            borderBox.Location = style.Margin.GetDrawPosition(marginBox);
-            paddingBox.Location = style.Border.Box.GetDrawPosition(borderBox);
-            contentBox.Location = style.Padding.GetDrawPosition(paddingBox);
-
-            return new DrawBox
-            {
-                MarginBox = marginBox,
-                BorderBox = borderBox,
-                PaddingBox = paddingBox,
-                ContentBox = contentBox,
-            };
-        }
     }
 }
