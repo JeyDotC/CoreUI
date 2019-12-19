@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using CoreUI.Dom.Styles;
 
@@ -9,33 +10,70 @@ namespace CoreUI.Dom.Rendering
     public class DrawBoxCalculator
     {
 
-        private PartialDrawBox PrecalculateMeasures(CoreUIDomElement element, PartialDrawBox closestBlockParent)
+        private DrawableNode PrecalculateMeasures(CoreUIDomNode node, DrawableNode closestBlockParent)
         {
-            var display = element.Style.Display;
-            var widthHint = element.GetWidthHint();
-            var heightHint = element.GetHeightHint();
-
-            return display switch
-            {
-                DisplayStyle.Inline => new PartialDrawBox(),
-                DisplayStyle.None => new PartialDrawBox(),
-                _ => new PartialDrawBox(),
+            var drawable = new DrawableNode {
+                OriginalNode = node,
+                ClosestBlockParent = closestBlockParent,
             };
+
+            var nodeAsElement = node as CoreUIDomElement;
+            var childrensClosestBlockParent = closestBlockParent;
+
+            if (nodeAsElement != null)
+            {
+                drawable.Style = new Style(nodeAsElement.Style);
+                if (nodeAsElement.Style.Display == DisplayStyle.Block)
+                {
+                    childrensClosestBlockParent = drawable;
+                }
+            }
+
+            // Do the pre-calculation here.
+
+            var children = node.Children.Where(child =>
+            {
+                var element = child as CoreUIDomElement;
+
+                return element == null || element.Style.Display != DisplayStyle.None;
+            }).Select(child => PrecalculateMeasures(child, childrensClosestBlockParent));
+
+            foreach (var child in children)
+            {
+                drawable.Add(child);
+            }
+
+            return drawable;
         }
 
-        private void CalculateChildren(CoreUIDomElement element)
+        private DrawableNode CompleteMeasures(DrawableNode drawableTree)
         {
-
+            throw new NotImplementedException();
         }
 
-        private void CompleteMeasures(CoreUIDomElement element)
+        private DrawableNode CalculatePositions(DrawableNode drawableTree)
         {
-
+            throw new NotImplementedException();
         }
 
-        private void CalculatePosition(CoreUIDomElement element)
+        private DrawableNode Reflow(DrawableNode drawableTree)
         {
+            throw new NotImplementedException();
+        }
 
+        internal DrawableNode CalculateDrawableDom(CoreUIDomDocument document)
+        {
+            var documentNode = new DrawableNode
+            {
+                PartialDrawBox = new PartialDrawBox(document.DrawBox),
+                OriginalNode = document,
+            };
+            var drawableNode = PrecalculateMeasures(document.Body, documentNode);
+            drawableNode = CompleteMeasures(drawableNode);
+            drawableNode = CalculatePositions(drawableNode);
+            drawableNode = Reflow(drawableNode);
+
+            return drawableNode;
         }
 
         public void CalculateDrawBoxesForTree(CoreUIDomElement element)

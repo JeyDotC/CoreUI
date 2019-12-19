@@ -17,45 +17,22 @@ namespace CoreUI.Dom.Rendering
 
         public DrawableNode Parent { get; set; }
 
-        public List<DrawableNode> Children { get; set; } = new List<DrawableNode>();
+        private readonly IList<DrawableNode> _children = new List<DrawableNode>();
 
-        public static DrawableNode FromCoreUINode(CoreUIDomNode node)
+        public IEnumerable<DrawableNode> Children => _children;
+
+        public DrawableNode Add(DrawableNode node)
         {
-            var drawable = new DrawableNode
+            if (node == this)
             {
-                OriginalNode = node,
-            };
-
-            var nodeAsElement = node as CoreUIDomElement;
-
-            if (nodeAsElement != null)
-            {
-                drawable.Style = new Style(nodeAsElement.Style);
+                throw new InvalidOperationException("Adding a node to itself can cause infinite recursion!");
             }
 
-            var selectableChildren = node.Children.Where(child =>
-            {
-                var element = child as CoreUIDomElement;
+            node.Parent = this;
 
-                return element == null || element.Style.Display != DisplayStyle.None;
-            });
+            _children.Add(node);
 
-            foreach (var child in selectableChildren)
-            {
-                var element = child as CoreUIDomElement;
-
-                var drawableChild = FromCoreUINode(child);
-                drawableChild.Parent = drawable;
-
-                if (element != null)
-                {
-                    drawableChild.Style = new Style(element.Style);
-                }
-
-                drawable.Children.Add(drawableChild);
-            }
-
-            return drawable;
+            return this;
         }
     }
 }
