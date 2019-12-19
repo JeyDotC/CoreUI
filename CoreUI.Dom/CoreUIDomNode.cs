@@ -8,24 +8,32 @@ namespace CoreUI.Dom
     {
         private readonly IList<CoreUIDomNode> _children = new List<CoreUIDomNode>();
 
-        public CoreUIDomNode Parent { get; protected set; }
+        private CoreUIDomNode _parent;
 
-        /// <summary>
-        /// Position relative to parent
-        /// </summary>
-        public virtual Point Position { get; set; } = new Point();
+        public CoreUIDomNode Parent
+        {
+            get => _parent;
+            protected set
+            {
+                if (value == this)
+                {
+                    throw new InvalidOperationException("A node cannot be parent of itself");
+                }
+                _parent = value;
+            }
+        }
 
-        public virtual Size Size { get; set; }
+        public IEnumerable<CoreUIDomNode> Children => _children;
 
-        IEnumerable<CoreUIDomNode> Children => _children;
+        public virtual DrawBox DrawBox { get; set; } = new DrawBox();
 
         public CoreUIDomNode Add(CoreUIDomNode node)
         {
-            if(node == this)
+            if (node == this)
             {
                 throw new InvalidOperationException("Adding a node to itself can cause infinite recursion!");
             }
-            
+
             node.Parent = this;
 
             _children.Add(node);
@@ -35,6 +43,7 @@ namespace CoreUI.Dom
 
         public CoreUIDomNode Remove(CoreUIDomNode node)
         {
+            node.Parent = null;
             _children.Remove(node);
 
             return this;
@@ -51,7 +60,5 @@ namespace CoreUI.Dom
 
             return this;
         }
-
-        protected abstract void Render(ICoreUIDrawContext drawContext);
     }
 }

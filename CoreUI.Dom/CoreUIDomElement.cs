@@ -8,12 +8,8 @@ namespace CoreUI.Dom
 {
     public abstract class CoreUIDomElement : CoreUIDomNode
     {
-        public Style Style { get; } = new Style();
+        public Style Style { get; protected set; } = new Style();
 
-        public override Point Position
-        {
-            get => base.Position + new Size(Style.Padding.Left, Style.Padding.Top);
-            set => base.Position = value;
-        }
+        public abstract Style DefaultStyle { get; }
     }
 }

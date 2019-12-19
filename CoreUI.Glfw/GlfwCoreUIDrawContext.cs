@@ -59,6 +59,8 @@ namespace CoreUI.Glfw
             _hostWindow.SizeChanged += RegenerateSurface;
         }
 
+        public Size ViewPort => _hostWindow.Size;
+
         private void RegenerateSurface(object sender, SizeChangeEventArgs e)
         {
             _surface.Dispose();
@@ -138,6 +140,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Fill()
         {
+            if (FillStyle.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var paint = FillStyle.ToSKPaint())
             {
                 paint.IsStroke = false;
@@ -151,9 +158,14 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext FillText(string text, Point position)
         {
+            if (Font.FontColor.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var typeface = SKTypeface.FromFamilyName(Font.FontFamily))
             {
-                using (var paint = FillStyle.ToSKPaint())
+                using (var paint = Font.FontColor.ToSKPaint())
                 {
                     paint.TextSize = Font.FontSize;
                     paint.IsAntialias = true;
@@ -214,6 +226,11 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Stroke()
         {
+            if (FillStyle.Type == PaintStyleType.None)
+            {
+                return this;
+            }
+
             using (var paint = StrokeStyle.ToSKPaint())
             {
                 paint.IsStroke = true;

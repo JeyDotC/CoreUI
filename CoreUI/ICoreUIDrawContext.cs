@@ -132,5 +132,7 @@ restore()	Returns previously saved path state and attributes
         public ICoreUIDrawContext Restore();
 
         public ICoreUIDrawContext Clear();
+
+        public Size ViewPort { get; }
     }
 }

@@ -5,12 +5,14 @@ namespace CoreUI.Styles
 {
     public class PaintStyle
     {
-        public PaintStyleType Type { get; set; }
+        public static PaintStyle None => new PaintStyle { Type = PaintStyleType.None };
+
+        public PaintStyleType Type { get; set; } = PaintStyleType.Solid;
 
         public Color Color { get; set; }
 
         public GradientSpec Gradient { get; set; } = new GradientSpec();
-        
+
         public static implicit operator PaintStyle(Color color) => new PaintStyle
         {
             Type = PaintStyleType.Solid,
