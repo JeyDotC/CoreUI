@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUI.Dom", "CoreUI.Dom\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUI.Glfw", "CoreUI.Glfw\CoreUI.Glfw.csproj", "{05456EA5-0061-46A7-AF60-C43395E2B8BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUI.Primitives", "CoreUI.Primitives\CoreUI.Primitives.csproj", "{45BF5E1A-97E6-42BA-A429-B145C14E8C51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{05456EA5-0061-46A7-AF60-C43395E2B8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05456EA5-0061-46A7-AF60-C43395E2B8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05456EA5-0061-46A7-AF60-C43395E2B8BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BF5E1A-97E6-42BA-A429-B145C14E8C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BF5E1A-97E6-42BA-A429-B145C14E8C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BF5E1A-97E6-42BA-A429-B145C14E8C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BF5E1A-97E6-42BA-A429-B145C14E8C51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

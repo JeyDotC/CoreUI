@@ -48,7 +48,7 @@ namespace CoreUI.Glfw
 
         private DrawingContextState _currentState = new DrawingContextState();
 
-        private DrawingContextState _savedState;
+        private Stack<DrawingContextState> _stateStack = new Stack<DrawingContextState>();
 
         public GlfwCoreUIDrawContext(NativeWindow nativeWindow)
         {
@@ -213,14 +213,13 @@ namespace CoreUI.Glfw
 
         public ICoreUIDrawContext Restore()
         {
-            _currentState = _savedState ?? _currentState;
-            _savedState = null;
-            return null;
+            _currentState = _stateStack.Count > 0 ? _stateStack.Pop() : _currentState;
+            return this;
         }
 
         public ICoreUIDrawContext Save()
         {
-            _savedState = new DrawingContextState(_currentState);
+            _stateStack.Push(new DrawingContextState(_currentState));
             return this;
         }
 
@@ -239,6 +238,12 @@ namespace CoreUI.Glfw
 
                 _canvas.DrawPath(_currentState.Path, paint);
             }
+            return this;
+        }
+
+        public ICoreUIDrawContext Clip()
+        {
+            _canvas.ClipPath(_currentState.Path, SKClipOperation.Intersect);
             return this;
         }
 

@@ -16,5 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CoreUI.Dom\CoreUI.Dom.csproj" />
     <ProjectReference Include="..\CoreUI.Glfw\CoreUI.Glfw.csproj" />
+    <ProjectReference Include="..\CoreUI.Primitives\CoreUI.Primitives.csproj" />
   </ItemGroup>
 </Project>

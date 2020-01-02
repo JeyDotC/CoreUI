@@ -43,7 +43,7 @@ Method	Description
 + moveTo()	Moves the path to the specified point in the canvas, without creating a line
 + closePath()	Creates a path from the current point back to the starting point
 + lineTo()	Adds a new point and creates a line to that point from the last specified point in the canvas
-clip()	Clips a region of any shape and size from the original canvas
++ clip()	Clips a region of any shape and size from the original canvas
 quadraticCurveTo()	Creates a quadratic Bézier curve
 bezierCurveTo()	Creates a cubic Bézier curve
 arc()	Creates an arc/curve (used to create circles, or parts of circles)
@@ -116,6 +116,8 @@ restore()	Returns previously saved path state and attributes
         public ICoreUIDrawContext MoveTo(Point point);
 
         public ICoreUIDrawContext LineTo(Point point);
+
+        public ICoreUIDrawContext Clip();
 
         public ICoreUIDrawContext ClosePath();
 

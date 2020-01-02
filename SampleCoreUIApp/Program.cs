@@ -13,7 +13,8 @@ namespace SampleCoreUIApp
             using (var app = new GlfwCoreUIApp())
             {
                 // var window = app.CreateWindow("Hello World").DrawingExample();
-                var window = app.CreateWindow("Hello World").DomExample();
+                // var window = app.CreateWindow("Hello World").DomExample();
+                var window = app.CreateWindow("Hello World").PrimitivesExample();
                 
                 app.WaitForExit();
             }
