@@ -10,19 +10,34 @@ namespace SampleCoreUIApp
 {
     static class PrimitivesSample
     {
-        public static ICoreUIWindow PrimitivesExample(this ICoreUIWindow window) => window.Renderer(context =>
+        public static ICoreUIWindow PrimitivesExample(this ICoreUIWindow window)
         {
-            context.ClearStyle = Color.White;
-
-            context.Clear();
-
-            var textBox = new TextBox {
+            var textBox = new TextBox
+            {
                 Background = Color.AliceBlue,
-                ContentArea = new Rectangle(50, 50, 200, 60),
+                ContentArea = new Rectangle(50, 50, 200, 13),
                 Value = "El Burrito Pepe, Muy Cargado va, Trota que te Trota, Trota que te Tra.",
+                HasFocus = true,
             };
 
-            textBox.Draw(context);
-        });
+            window.MouseButton += (o, args) =>
+            {
+                var mousePosition = window.MousePosition;
+                textBox.HasFocus = 
+                    args.Action == InputState.Press && 
+                    args.Button == MouseButton.Left && 
+                    textBox.ContentArea.Contains(window.MousePosition);
+                window.Refresh();
+            };
+
+            return window.Renderer(context =>
+            {
+                context.ClearStyle = Color.White;
+
+                context.Clear();
+
+                textBox.Draw(context);
+            });
+        }
     }
 }
