@@ -24,10 +24,9 @@ namespace SampleCoreUIApp
             {
                 var mousePosition = window.MousePosition;
                 textBox.HasFocus = 
-                    args.Action == InputState.Press && 
+                    args.Action == InputState.Release && 
                     args.Button == MouseButton.Left && 
                     textBox.ContentArea.Contains(window.MousePosition);
-                window.Refresh();
             };
 
             return window.Renderer(context =>

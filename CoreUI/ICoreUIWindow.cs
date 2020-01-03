@@ -7,8 +7,6 @@ namespace CoreUI
     {
         public ICoreUIWindow Renderer(Action<ICoreUIDrawContext> render);
 
-        public void Refresh();
-
         public Size Size { get; set; }
 
         public Point MousePosition { get; set; }

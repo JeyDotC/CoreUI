@@ -54,9 +54,7 @@ namespace CoreUI.Glfw
             _render += render;
             return this;
         }
-
-        public void Refresh() => DoRender();
-
+        
         internal void DoRender()
         {
             _render?.Invoke(_context);

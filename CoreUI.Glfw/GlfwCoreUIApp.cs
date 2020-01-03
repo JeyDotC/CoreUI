@@ -37,6 +37,7 @@ namespace CoreUI.Glfw
             while(!_window.ShouldClose)
             {
                 GL.PollEvents();
+                _window.DoRender();
             }
         }
 

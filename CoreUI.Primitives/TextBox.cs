@@ -17,21 +17,39 @@ namespace CoreUI.Primitives
         public bool HasFocus { get; set; }
 
         public int CaretLocation { get; set; } = 0;
+
+        private bool _caretClocationMustBeCalculated = false;
+        private Point _pointToCalculateCaret;
+
+        public void LocateCaretAt(Point point)
+        {
+            _caretClocationMustBeCalculated = ContentArea.Contains(point);
+            _pointToCalculateCaret = point;
+        }
         
         public void Draw(ICoreUIDrawContext drawContext)
         {
+            var value = Value ?? string.Empty;
+
             drawContext.Save();
+
             drawContext.FillStyle = Background;
             drawContext.Font = Font;
             drawContext
                 .Rect(ContentArea)
                 .Fill()
-                .Clip()
-                .FillText(Value, ContentArea.Location);
+                .FillText(value, ContentArea.Location);
 
             if (HasFocus)
             {
-                var caretDistanceToLeftSide = drawContext.MeasureText(Value.Substring(0, CaretLocation)).Width;
+                var fullTextWidth = drawContext.MeasureText(value).Width;
+
+                if (_caretClocationMustBeCalculated)
+                {
+
+                }
+
+                var caretDistanceToLeftSide = drawContext.MeasureText(value.Substring(0, CaretLocation)).Width;
                 var caretDisplacement = new Size(caretDistanceToLeftSide, 0);
 
                 drawContext.FillStyle = Color.Black;
