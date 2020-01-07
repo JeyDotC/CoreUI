@@ -19,12 +19,13 @@ namespace CoreUI.Primitives
         public int CaretLocation { get; set; } = 0;
 
         private bool _caretClocationMustBeCalculated = false;
-        private Point _pointToCalculateCaret;
+        private int _caretHorizontalDistance;
 
         public void LocateCaretAt(Point point)
         {
-            _caretClocationMustBeCalculated = ContentArea.Contains(point);
-            _pointToCalculateCaret = point;
+            var pointIsInContentArea = ContentArea.Contains(point);
+            HasFocus = _caretClocationMustBeCalculated = pointIsInContentArea;
+            _caretHorizontalDistance = point.X - ContentArea.Left;
         }
         
         public void Draw(ICoreUIDrawContext drawContext)
@@ -42,12 +43,7 @@ namespace CoreUI.Primitives
 
             if (HasFocus)
             {
-                var fullTextWidth = drawContext.MeasureText(value).Width;
-
-                if (_caretClocationMustBeCalculated)
-                {
-
-                }
+                CalculateCaretLocationIfNeeded(drawContext);
 
                 var caretDistanceToLeftSide = drawContext.MeasureText(value.Substring(0, CaretLocation)).Width;
                 var caretDisplacement = new Size(caretDistanceToLeftSide, 0);
@@ -61,6 +57,41 @@ namespace CoreUI.Primitives
             }
 
             drawContext.Restore();
+        }
+        
+        private void CalculateCaretLocationIfNeeded(ICoreUIDrawContext drawContext)
+        {
+            if (_caretClocationMustBeCalculated)
+            {
+                CaretLocation = LocateCaret(drawContext, _caretHorizontalDistance, Value);
+                _caretClocationMustBeCalculated = false;
+            }
+        }
+
+        private static int LocateCaret(ICoreUIDrawContext context, int distance, string text, int addedValue = 0)
+        {
+            if(distance <= 0 || string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            var foundCaret = text.Length / 2;
+            var leftTex = text.Substring(0, foundCaret);
+            var leftMeasure = context.MeasureText(leftTex).Width;
+
+            var diff = leftMeasure - distance;
+            
+            if (diff > 3)
+            {
+                return LocateCaret(context, distance, leftTex, addedValue);
+            }
+
+            if (diff < -3)
+            {
+                return LocateCaret(context, distance - leftMeasure, text.Substring(foundCaret), addedValue + foundCaret);
+            }
+
+            return foundCaret + addedValue;
         }
     }
 }

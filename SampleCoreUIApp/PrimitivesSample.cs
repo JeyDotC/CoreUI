@@ -22,11 +22,11 @@ namespace SampleCoreUIApp
 
             window.MouseButton += (o, args) =>
             {
-                var mousePosition = window.MousePosition;
-                textBox.HasFocus = 
-                    args.Action == InputState.Release && 
-                    args.Button == MouseButton.Left && 
-                    textBox.ContentArea.Contains(window.MousePosition);
+                if (args.Action == InputState.Release && args.Button == MouseButton.Left)
+                {
+                    var mousePosition = window.MousePosition;
+                    textBox.LocateCaretAt(mousePosition);
+                }
             };
 
             return window.Renderer(context =>

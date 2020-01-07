@@ -123,7 +123,7 @@ restore()	Returns previously saved path state and attributes
 
         // Text
         public FontStyles Font { get; set; }
-        
+
         public Size MeasureText(string text);
 
         public ICoreUIDrawContext FillText(string text, Point position);

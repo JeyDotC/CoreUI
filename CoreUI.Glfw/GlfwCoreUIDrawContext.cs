@@ -16,8 +16,9 @@ namespace CoreUI.Glfw
 
         private SKSurface _surface;
         private SKCanvas _canvas;
-        
-        public PaintStyle ClearStyle {
+
+        public PaintStyle ClearStyle
+        {
             get => _currentState.ClearStyle;
             set => _currentState.ClearStyle = value;
         }
@@ -181,21 +182,12 @@ namespace CoreUI.Glfw
 
         public Size MeasureText(string text)
         {
-            using (var typeface = SKTypeface.FromFamilyName(Font.FontFamily))
+            using (var paint = Font.ToSkPaint())
             {
-                using (var paint = new SKPaint
-                {
-                    TextSize = Font.FontSize,
-                    IsStroke = false,
-                    Typeface = typeface,
-                })
-                {
-                    var metrics = paint.FontMetrics;
-                    var width = paint.MeasureText(text);
-                    var height = -metrics.Ascent + metrics.Descent;
-                    return new Size((int)width, (int)height);
-                }
-
+                var metrics = paint.FontMetrics;
+                var width = paint.MeasureText(text);
+                var height = -metrics.Ascent + metrics.Descent;
+                return new Size((int)width, (int)height);
             }
         }
 
