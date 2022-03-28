@@ -45,14 +45,14 @@ namespace CoreUI.Primitives
             {
                 CalculateCaretLocationIfNeeded(drawContext);
 
-                var caretDistanceToLeftSide = drawContext.MeasureText(value.Substring(0, CaretLocation)).Width;
-                var caretDisplacement = new Size(caretDistanceToLeftSide, 0);
+                var textSize = drawContext.MeasureText(value.Substring(0, CaretLocation));
+                var caretDisplacement = new Size(textSize.Width, 0);
 
                 drawContext.FillStyle = Color.Black;
                 drawContext.Rect(new Rectangle
                 {
                     Location = ContentArea.Location + caretDisplacement,
-                    Size = new Size(1, ContentArea.Height)
+                    Size = new Size(1, textSize.Height)
                 }).Fill();
             }
 

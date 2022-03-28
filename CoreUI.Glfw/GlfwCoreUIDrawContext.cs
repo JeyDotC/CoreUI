@@ -74,8 +74,8 @@ namespace CoreUI.Glfw
         private static GRContext GenerateSkiaContext(NativeWindow nativeWindow)
         {
             var nativeContext = GetNativeContext(nativeWindow);
-            var glInterface = GRGlInterface.AssembleGlInterface(nativeContext, (contextHandle, name) => GL.GetProcAddress(name));
-            return GRContext.Create(GRBackend.OpenGL, glInterface);
+            var glInterface = GRGlInterface.CreateOpenGl((name) => GL.GetProcAddress(name));
+            return GRContext.CreateGl(glInterface);
         }
 
         private static object GetNativeContext(NativeWindow nativeWindow)
@@ -101,7 +101,7 @@ namespace CoreUI.Glfw
 
         private static SKSurface GenerateSkiaSurface(GRContext skiaContext, Size surfaceSize)
         {
-            var frameBufferInfo = new GRGlFramebufferInfo((uint)new UIntPtr(0), GRPixelConfig.Rgba8888.ToGlSizedFormat());
+            var frameBufferInfo = new GRGlFramebufferInfo((uint)new UIntPtr(0), SKColorType.Rgba8888.ToGlSizedFormat());
             var backendRenderTarget = new GRBackendRenderTarget(surfaceSize.Width,
                                                                 surfaceSize.Height,
                                                                 0,

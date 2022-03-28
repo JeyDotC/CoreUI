@@ -15,7 +15,7 @@ namespace SampleCoreUIApp
             var textBox = new TextBox
             {
                 Background = Color.AliceBlue,
-                ContentArea = new Rectangle(50, 50, 200, 13),
+                ContentArea = new Rectangle(50, 50, 200, 30),
                 Value = "El Burrito Pepe, Muy Cargado va, Trota que te Trota, Trota que te Tra.",
                 HasFocus = true,
             };
